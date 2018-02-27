@@ -2,22 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
+using UnityEngine.SceneManagement;
 
-public class Controls : MonoBehaviour {
+public class Controls: MonoBehaviour {
 
 	Vector3 tPosition;
 	float xThrow, yThrow;
-    float sp = 2f;
-    public float xMin = -1.09f;
-    public float xMax = 1.09f;
-    public float yMin = -1.16f;
-    public float yMax = 1.16f;
-    public float tilt = 5f;
+    float sp = 10f;
+    public float xMin = -10f;
+    public float xMax = 10f;
+    public float yMin = -8f;
+    public float yMax = 8f;
+    public float tilt = 7f;
     public float yRotation = 0.0F;
     public float xRotation = 0.0F;
+    public ParticleSystem explode;
 
     void Start ()
-    {}
+    { explode.Stop();}
 
     void Update(){
         tPosition = transform.localPosition;
@@ -69,5 +71,13 @@ public class Controls : MonoBehaviour {
 
        transform.localPosition = tPosition;
 
+    }
+
+    void OnCollisionEnter(Collision collision){
+			if(collision.gameObject.tag == "obstacle"){ 
+                explode.Play();
+                SceneManager.LoadScene(1);
+				Debug.Log("Collided with: " + collision.gameObject.name);
+			}
     }
 }
