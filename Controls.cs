@@ -9,17 +9,22 @@ public class Controls: MonoBehaviour {
 	Vector3 tPosition;
 	float xThrow, yThrow;
     float sp = 10f;
+    float delayTime = 2f;
+    public Renderer spaceship;
     public float xMin = -10f;
     public float xMax = 10f;
-    public float yMin = -8f;
-    public float yMax = 8f;
+    public float yMin = -16f;
+    public float yMax = 16f;
     public float tilt = 7f;
     public float yRotation = 0.0F;
     public float xRotation = 0.0F;
     public ParticleSystem explode;
 
-    void Start ()
-    { explode.Stop();}
+    void Start (){ 
+        explode.Stop();
+        spaceship = GetComponent<Renderer>();
+        spaceship.enabled = true;
+    }
 
     void Update(){
         tPosition = transform.localPosition;
@@ -75,9 +80,17 @@ public class Controls: MonoBehaviour {
 
     void OnCollisionEnter(Collision collision){
 			if(collision.gameObject.tag == "obstacle"){ 
+                Debug.Log("Collided with: " + collision.gameObject.name);    
                 explode.Play();
-                SceneManager.LoadScene(1);
-				Debug.Log("Collided with: " + collision.gameObject.name);
+                spaceship.enabled = false;
+                Invoke("DelayedAction", delayTime);
 			}
     }
+
+    void DelayedAction()
+    {
+        //Destroy(gameObject);
+        SceneManager.LoadScene(1);
+    }
+        
 }
