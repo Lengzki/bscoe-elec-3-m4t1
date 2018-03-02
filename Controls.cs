@@ -8,7 +8,7 @@ public class Controls: MonoBehaviour {
 
 	Vector3 tPosition;
 	float xThrow, yThrow;
-    float sp = 10f;
+    float sp = 20f;
     float delayTime = 2f;
     public Renderer spaceship;
     public float xMin = -10f;
